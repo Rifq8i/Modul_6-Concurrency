@@ -22,3 +22,6 @@ Pada milestone 4, kita menambahkan route /sleep yang mensimulasikan proses lamba
 satu mengakses /, tab kedua harus menunggu tab pertama selesai terlebih dahulu baru bisa mendapat respons. Hal ini terjadi karena server masih berjalan di single-thread, sehingga hanya bisa menangani satu request dalam satu waktu. Selama thread utama 
 sedang sleep menangani /sleep, request lain yang masuk harus mengantri. Dari simulasi ini, kita dapat melihat seberapa terbatasnya single-threaded di dunia nyata ketika ada banyak user yang mengakses secara bersamaan.
 
+**Commit 5 Reflection notes**  
+Pada milestone 5, kita menerapkan multithreaded menggunakan ThreadPool agar bisa menangani beberapa request secara bersamaan. ThreadPool bekerja dengan cara membuat sejumlah worker thread saat diinisialisasi. Setiap request yang masuk dikirim ke channel mpsc, 
+lalu salah satu worker yang sedang idle akan mengambil dan mengerjakannya. Arc<Mutex<>> digunakan agar receiver channel bisa dibagi ke banyak worker secara thread-safe. Hasilnya, Sekarang ketika sleep dan / diakses bersamaan, keduanya ditangani oleh worker thread yang berbeda sehingga / tidak perlu menunggu /sleep selesai. Sehingga simulasi ini menunjukan bahwa multithreading dapat meningkatkan performa dan responsivitas server secara signifikan.
