@@ -1,0 +1,2 @@
+**Commit 1 Reflection notes**  
+Setelah membaca dokumentasi, saya memahami bahwa fungsi handle_connection() berguna untuk membaca dan menampilkan HTTP request yang dikirim browser ke sever. Pada fungsi, Buffreader digunakan untuk membungkus TcpStream agar bisa dibaca baris per baris, lalu .lines() mengubah stream menjadi iterator per baris, take_while() berhenti saat menemukan baris kosong (tanda akhir HTTP header), dan .collect() mengumpulkan semua baris ke dalam vec String.
