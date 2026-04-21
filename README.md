@@ -25,3 +25,8 @@ sedang sleep menangani /sleep, request lain yang masuk harus mengantri. Dari sim
 **Commit 5 Reflection notes**  
 Pada milestone 5, kita menerapkan multithreaded menggunakan ThreadPool agar bisa menangani beberapa request secara bersamaan. ThreadPool bekerja dengan cara membuat sejumlah worker thread saat diinisialisasi. Setiap request yang masuk dikirim ke channel mpsc, 
 lalu salah satu worker yang sedang idle akan mengambil dan mengerjakannya. Arc<Mutex<>> digunakan agar receiver channel bisa dibagi ke banyak worker secara thread-safe. Hasilnya, Sekarang ketika sleep dan / diakses bersamaan, keduanya ditangani oleh worker thread yang berbeda sehingga / tidak perlu menunggu /sleep selesai. Sehingga simulasi ini menunjukan bahwa multithreading dapat meningkatkan performa dan responsivitas server secara signifikan.
+
+**Commit Bonus Reflection notes**  
+Pada bonus, saya mencoba untuk menambahkan Fungsi build sebagai alternatif dari new untuk membuat ThreadPool. Perbedaan utamanya adalah new menggunakan assert! yang langsung menyebabkan panic jika size = 0, sedangkan build
+mengembalikan Result sehingga error bisa ditangani secara graceful. Dengan build, pemanggil bisa memutuskan sendiri apa yang dilakukan ketika terjadi error, misalnya menampilkan pesan yang informatif lalu 
+keluar dengan process::exit(1). Metode ini lebih baik karena  menghindari panic yang tidak terduga dan membuat program lebih robust.
